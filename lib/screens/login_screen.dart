@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stuffcart/screens/registration_screen.dart';
 
@@ -14,44 +15,98 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool isLoading = false;
+  late UserCredential credential;
+
+  Future loginAuth() async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("No user found for that email."),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else if (e.code == 'wrong-password') {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Wrong password provided for that user."),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
+
   void validation(context) {
-    if (emailController.text.isEmpty && passwordController.text.isEmpty) {
+    if (emailController.text.trim().isEmpty &&
+        passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Both fields are empty"),
           duration: Duration(seconds: 2),
         ),
       );
-    } else if (emailController.text.isEmpty) {
+      setState(() {
+        isLoading = false;
+      });
+    } else if (emailController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Empty Email"),
           duration: Duration(seconds: 2),
         ),
       );
+      setState(() {
+        isLoading = false;
+      });
     } else if (!RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(emailController.text)) {
+        .hasMatch(emailController.text.trim())) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Invalid Email"),
           duration: Duration(seconds: 2),
         ),
       );
-    } else if (passwordController.text.isEmpty) {
+      setState(() {
+        isLoading = false;
+      });
+    } else if (passwordController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Empty Password"),
           duration: Duration(seconds: 2),
         ),
       );
-    } else if (passwordController.text.length < 6) {
+      setState(() {
+        isLoading = false;
+      });
+    } else if (passwordController.text.trim().length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Require minimum 6 digits password"),
           duration: Duration(seconds: 2),
         ),
       );
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = true;
+      });
+      loginAuth();
     }
   }
 
@@ -113,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: MaterialButton(
         onPressed: () {
           validation(context);
-        },
+        }, /////////////////////////////`///
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
         child: const Text(
@@ -183,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 30,
                     ),
-                    loginButton,
+                    isLoading ? const CircularProgressIndicator() : loginButton,
                     const SizedBox(
                       height: 30,
                     ),

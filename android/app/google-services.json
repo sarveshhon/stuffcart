@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "865886441665",
+    "project_id": "stuffcart-2f454",
+    "storage_bucket": "stuffcart-2f454.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865886441665:android:d6b6af2223041424fa8440",
+        "android_client_info": {
+          "package_name": "com.example.stuffcart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865886441665-dospki5grvott749t0n330mqncd5m381.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjjBeJ_raiYIQ_VH6kM0nkk3j07dvNANs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865886441665-dospki5grvott749t0n330mqncd5m381.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
