@@ -85,7 +85,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     });
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
+        builder: (context) => HomeScreen(),
       ),
     );
   }
