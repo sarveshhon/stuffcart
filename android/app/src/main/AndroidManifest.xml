@@ -2,12 +2,13 @@
     package="com.example.stuffcart">
     
    <application
-        android:label="stuffcart"
+        android:label="Stuffcart"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:usesCleartextTraffic="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

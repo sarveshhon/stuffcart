@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stuffcart/model/categories_model.dart';
 import 'package:stuffcart/provider/my_provider.dart';
+import 'package:stuffcart/screens/about_screen.dart';
 import 'package:stuffcart/screens/cart_screen.dart';
 import 'package:stuffcart/screens/category_screen.dart';
+import 'package:stuffcart/screens/order_screen.dart';
 import 'package:stuffcart/screens/product_screen.dart';
+import 'package:stuffcart/screens/profile_screen.dart';
 
 import '../model/food_model.dart';
 import '../widget/botom_container.dart';
@@ -213,6 +216,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MyProvider provider = Provider.of<MyProvider>(context);
+
     provider.getHomeStyleCategories();
     homeStyleList = provider.throwHomeStyleList;
     provider.getChaatCategories();
@@ -271,10 +275,46 @@ class HomeScreen extends StatelessWidget {
                 accountName: Text("Sarvesh Hon"),
                 accountEmail: Text("sarveshhon@gmail.com"),
               ),
-              drawerItems("Profile", Icons.person),
-              drawerItems("Cart", Icons.shopping_bag_outlined),
-              drawerItems("Orders", Icons.shopping_bag_rounded),
-              drawerItems("About", Icons.info),
+              GestureDetector(
+                child: drawerItems("Profile", Icons.person),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileScreen(),
+                    ),
+                  );
+                },
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CartScreen(),
+                    ),
+                  );
+                },
+                child: drawerItems("Cart", Icons.shopping_bag_outlined),
+              ),
+              GestureDetector(
+                child: drawerItems("Orders", Icons.shopping_bag_rounded),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => OrderScreen(),
+                    ),
+                  );
+                },
+              ),
+              GestureDetector(
+                child: drawerItems("About", Icons.info),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AboutScreen(),
+                    ),
+                  );
+                },
+              ),
               const Divider(
                 thickness: 1,
                 color: Colors.grey,
@@ -306,27 +346,27 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10),
+            //   child: TextField(
+            //     decoration: InputDecoration(
+            //       hintText: "Search...",
+            //       focusColor: Colors.indigo,
+            //       prefixIcon: const Icon(
+            //         Icons.search,
+            //         color: Colors.indigo,
+            //       ),
+            //       filled: true,
+            //       fillColor: Colors.grey.shade200,
+            //       border: OutlineInputBorder(
+            //         borderSide: BorderSide.none,
+            //         borderRadius: BorderRadius.circular(10),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search...",
-                  focusColor: Colors.indigo,
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: Colors.indigo,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey.shade200,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
