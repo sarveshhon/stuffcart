@@ -1,41 +1,59 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stuffcart/model/categories_data.dart';
+import 'package:stuffcart/model/categories_model.dart';
 import 'package:stuffcart/provider/my_provider.dart';
+import 'package:stuffcart/screens/cart_screen.dart';
+import 'package:stuffcart/screens/category_screen.dart';
+import 'package:stuffcart/screens/product_screen.dart';
+
+import '../model/food_model.dart';
+import '../widget/botom_container.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   List<CategoriesModel> homeStyleList = [];
+  List<FoodModel> homeStyleFoodList = [];
   List<CategoriesModel> chaatList = [];
+  List<FoodModel> chaatFoodList = [];
   List<CategoriesModel> chickenList = [];
+  List<FoodModel> chickenFoodList = [];
   List<CategoriesModel> pizzaList = [];
+  List<FoodModel> pizzaFoodList = [];
   List<CategoriesModel> burgerList = [];
+  List<FoodModel> burgerFoodList = [];
   List<CategoriesModel> momosList = [];
+  List<FoodModel> momosFoodList = [];
   List<CategoriesModel> friesList = [];
+  List<FoodModel> friesFoodList = [];
+  List<FoodModel> foodList = [];
 
-  Widget categoriesContainer(String image, String name) {
+  Widget categoriesContainer(
+      {required VoidCallback onTap,
+      required String image,
+      required String name}) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-          // child: Container(
-          //   height: 70,
-          //   width: 70,
-          //   decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //       image: AssetImage(image),
-          //     ),
-          //     color: Colors.grey.shade200,
-          //     borderRadius: BorderRadius.circular(10),
-          //   ),
-          // ),
-          child: CircleAvatar(
-            radius: 40,
-            backgroundColor: Colors.grey.shade200,
-            backgroundImage: NetworkImage(image),
+        GestureDetector(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+            // child: Container(
+            //   height: 70,
+            //   width: 70,
+            //   decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //       image: AssetImage(image),
+            //     ),
+            //     color: Colors.grey.shade200,
+            //     borderRadius: BorderRadius.circular(10),
+            //   ),
+            // ),
+            child: CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.grey.shade200,
+              backgroundImage: NetworkImage(image),
+            ),
           ),
         ),
         Padding(
@@ -46,78 +64,6 @@ class HomeScreen extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-
-  Widget bottomContainer(String image, String name, String price) {
-    return Container(
-      height: 270,
-      width: 220,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          CircleAvatar(
-            radius: 70,
-            backgroundColor: Colors.grey.shade200,
-            backgroundImage: AssetImage(image),
-          ),
-          ListTile(
-            leading: Text(
-              name,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            trailing: Text(
-              "\$" + price,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 8.0),
-          //   child: Row(
-          //     children: const [
-          //       Icon(
-          //         Icons.star,
-          //         size: 20,
-          //         color: Colors.black,
-          //       ),
-          //       Icon(
-          //         Icons.star,
-          //         size: 20,
-          //         color: Colors.black,
-          //       ),
-          //       Icon(
-          //         Icons.star,
-          //         size: 20,
-          //         color: Colors.black,
-          //       ),
-          //       Icon(
-          //         Icons.star,
-          //         size: 20,
-          //         color: Colors.black,
-          //       ),
-          //       Icon(
-          //         Icons.star,
-          //         size: 20,
-          //         color: Colors.black,
-          //       ),
-          //     ],
-          //   ),
-          // )
-        ],
-      ),
     );
   }
 
@@ -138,53 +84,129 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget homeStyle() {
+  Widget homeStyle(BuildContext context) {
     return Row(
       children: homeStyleList
-          .map((e) => categoriesContainer(e.image, e.name))
+          .map((e) => categoriesContainer(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CategoryScreen(
+                        list: homeStyleFoodList, categoryName: "Home Style"),
+                  ),
+                );
+              },
+              image: e.image,
+              name: e.name))
           .toList(),
     );
   }
 
-  Widget chaat() {
+  Widget chaat(BuildContext context) {
     return Row(
-      children:
-          chaatList.map((e) => categoriesContainer(e.image, e.name)).toList(),
+      children: chaatList
+          .map((e) => categoriesContainer(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CategoryScreen(
+                        list: chaatFoodList, categoryName: "Chaat"),
+                  ),
+                );
+              },
+              image: e.image,
+              name: e.name))
+          .toList(),
     );
   }
 
-  Widget chicken() {
+  Widget chicken(BuildContext context) {
     return Row(
-      children:
-          chickenList.map((e) => categoriesContainer(e.image, e.name)).toList(),
+      children: chickenList
+          .map((e) => categoriesContainer(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CategoryScreen(
+                        list: chickenFoodList, categoryName: "Chicken"),
+                  ),
+                );
+              },
+              image: e.image,
+              name: e.name))
+          .toList(),
     );
   }
 
-  Widget pizza() {
+  Widget pizza(BuildContext context) {
     return Row(
-      children:
-          pizzaList.map((e) => categoriesContainer(e.image, e.name)).toList(),
+      children: pizzaList
+          .map((e) => categoriesContainer(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CategoryScreen(
+                        list: pizzaFoodList, categoryName: "Pizza"),
+                  ),
+                );
+              },
+              image: e.image,
+              name: e.name))
+          .toList(),
     );
   }
 
-  Widget burger() {
+  Widget burger(BuildContext context) {
     return Row(
-      children:
-          burgerList.map((e) => categoriesContainer(e.image, e.name)).toList(),
+      children: burgerList
+          .map((e) => categoriesContainer(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CategoryScreen(
+                        list: burgerFoodList, categoryName: "Burger"),
+                  ),
+                );
+              },
+              image: e.image,
+              name: e.name))
+          .toList(),
     );
   }
 
-  Widget momos() {
+  Widget momos(BuildContext context) {
     return Row(
-      children:
-          momosList.map((e) => categoriesContainer(e.image, e.name)).toList(),
+      children: momosList
+          .map((e) => categoriesContainer(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CategoryScreen(
+                        list: momosFoodList, categoryName: "Momos"),
+                  ),
+                );
+              },
+              image: e.image,
+              name: e.name))
+          .toList(),
     );
   }
 
-  Widget fries() {
+  Widget fries(BuildContext context) {
     return Row(
-      children:
-          friesList.map((e) => categoriesContainer(e.image, e.name)).toList(),
+      children: friesList
+          .map((e) => categoriesContainer(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CategoryScreen(
+                        list: friesFoodList, categoryName: "Fries"),
+                  ),
+                );
+              },
+              image: e.image,
+              name: e.name))
+          .toList(),
     );
   }
 
@@ -205,6 +227,29 @@ class HomeScreen extends StatelessWidget {
     momosList = provider.throwMomosList;
     provider.getFriesCategories();
     friesList = provider.throwFriesList;
+    provider.getFoodList();
+    foodList = provider.throwFoodList;
+
+    provider.getHomeStyleFoodCategories();
+    homeStyleFoodList = provider.throwHomeStyleFoodList;
+
+    provider.getChaatFoodCategories();
+    chaatFoodList = provider.throwChaatFoodList;
+
+    provider.getChickenFoodCategories();
+    chickenFoodList = provider.throwChickenFoodList;
+
+    provider.getPizzaFoodCategories();
+    pizzaFoodList = provider.throwPizzaFoodList;
+
+    provider.getBurgerFoodCategories();
+    burgerFoodList = provider.throwBurgerFoodList;
+
+    provider.getMomosFoodCategories();
+    momosFoodList = provider.throwMomosFoodList;
+
+    provider.getFriesFoodCategories();
+    friesFoodList = provider.throwFriesFoodList;
 
     return Scaffold(
       drawer: Drawer(
@@ -227,8 +272,8 @@ class HomeScreen extends StatelessWidget {
                 accountEmail: Text("sarveshhon@gmail.com"),
               ),
               drawerItems("Profile", Icons.person),
-              drawerItems("Cart", Icons.add_shopping_cart),
-              drawerItems("Orders", Icons.shop),
+              drawerItems("Cart", Icons.shopping_bag_outlined),
+              drawerItems("Orders", Icons.shopping_bag_rounded),
               drawerItems("About", Icons.info),
               const Divider(
                 thickness: 1,
@@ -243,12 +288,21 @@ class HomeScreen extends StatelessWidget {
         title: const Text("StuffCart"),
         elevation: 0.0,
         backgroundColor: Colors.indigo,
-        actions: const [
-          Icon(Icons.shopping_basket_sharp),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_bag_outlined),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const CartScreen(),
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -271,56 +325,64 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  homeStyle(),
-                  chaat(),
-                  chicken(),
-                  pizza(),
-                  burger(),
-                  momos(),
-                  fries(),
-                  // categoriesContainer("assets/medium10.png", "Medium10"),
-                  // categoriesContainer("assets/small8.png", "Small8"),
-                  // categoriesContainer("assets/large12.png", "Large12"),
-                  // categoriesContainer("assets/large14.png", "Large14"),
-                  // categoriesContainer("assets/pecanpie.png", "Pecan Pie"),
-                  // categoriesContainer("assets/darkpecans.png", "Dark Pecans"),
-                  // categoriesContainer(
-                  //     "assets/baconpotatochip.png", "Bacon Chip"),
-                  // categoriesContainer("assets/maplenut.png", "Maple Nut"),
-                  // categoriesContainer(
-                  //     "assets/seasaltcaramels.png", "Salt Caramels"),
-                ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    homeStyle(context),
+                    chaat(context),
+                    chicken(context),
+                    pizza(context),
+                    burger(context),
+                    momos(context),
+                    fries(context),
+                    // categoriesContainer("assets/medium10.png", "Medium10"),
+                    // categoriesContainer("assets/small8.png", "Small8"),
+                    // categoriesContainer("assets/large12.png", "Large12"),
+                    // categoriesContainer("assets/large14.png", "Large14"),
+                    // categoriesContainer("assets/pecanpie.png", "Pecan Pie"),
+                    // categoriesContainer("assets/darkpecans.png", "Dark Pecans"),
+                    // categoriesContainer(
+                    //     "assets/baconpotatochip.png", "Bacon Chip"),
+                    // categoriesContainer("assets/maplenut.png", "Maple Nut"),
+                    // categoriesContainer(
+                    //     "assets/seasaltcaramels.png", "Salt Caramels"),
+                  ],
+                ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              height: 510,
-              child: GridView.count(
-                shrinkWrap: false,
-                primary: false,
-                crossAxisCount: 2,
-                childAspectRatio: 0.8,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children: [
-                  bottomContainer("assets/medium10.png", "Google", "59.45"),
-                  bottomContainer(
-                      "assets/stuffcart_logo.png", "Apple", "45.92"),
-                  bottomContainer(
-                      "assets/stuffcart_logo.png", "Apple", "45.92"),
-                  bottomContainer(
-                      "assets/stuffcart_logo.png", "Apple", "45.92"),
-                  bottomContainer(
-                      "assets/stuffcart_logo.png", "Apple", "45.92"),
-                  bottomContainer(
-                      "assets/stuffcart_logo.png", "Apple", "45.92"),
-                  bottomContainer(
-                      "assets/stuffcart_logo.png", "Google", "59.45"),
-                ],
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  primary: false,
+                  crossAxisCount: 2,
+                  childAspectRatio: 1,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  children: foodList
+                      .map(
+                        (e) => BottomContainer(
+                          image: e.image,
+                          name: e.name,
+                          price: e.price.toString(),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ProductScreen(
+                                    name: e.name,
+                                    image: e.image,
+                                    price: e.price),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                      .toList(),
+                ),
               ),
             ),
           ],

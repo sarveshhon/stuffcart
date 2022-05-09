@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:stuffcart/provider/my_provider.dart';
 import 'package:stuffcart/screens/home_screen.dart';
 import 'package:stuffcart/screens/login_screen.dart';
+import 'package:stuffcart/screens/product_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        // home: HomeScreen(),
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
