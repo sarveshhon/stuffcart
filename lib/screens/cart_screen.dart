@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+import 'package:stuffcart/controllers/cart_controller.dart';
+import 'package:stuffcart/screens/order_screen.dart';
 import 'package:stuffcart/widget/cart_item.dart';
-
-import '../provider/my_provider.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -14,10 +14,6 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    MyProvider provider = Provider.of<MyProvider>(context);
-
-    int totalPrice = provider.totalPrice();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
@@ -46,44 +42,62 @@ class _CartScreenState extends State<CartScreen> {
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "\u{20B9}" + totalPrice.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
+          child: GetX<CartController>(
+            builder: (controller) {
+              return GestureDetector(
+                onTap: () {
+                  if (controller.count > 0) {
+                    Get.to(const OrderScreen());
+                    controller.removeAll();
+                  } else {
+                    Get.snackbar("Empty Cart", "Please add items to cart",
+                        snackPosition: SnackPosition.BOTTOM);
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "\u{20B9}${controller.totalAmount}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Text(
+                      "Checkout",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const Text(
-                "Checkout",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: provider.cartList.length,
-        itemBuilder: (context, index) {
-          provider.getDeletedIndex(index);
-          return CartItem(
-            image: provider.cartList[index].image,
-            name: provider.cartList[index].name,
-            price: provider.cartList[index].price,
-            quantity: provider.cartList[index].quantity,
-            onTap: () {
-              provider.delete();
+      body: GetX<CartController>(
+        builder: (controller) {
+          return ListView.builder(
+            itemCount: controller.cartItems.length,
+            itemBuilder: (context, index) {
+              return CartItem(
+                image: controller.cartItems[index].image,
+                name: controller.cartItems[index].name,
+                price: controller.cartItems[index].price,
+                quantity: controller.cartItems[index].quantity,
+                onTap: () {
+                  controller.removeFromCart(index);
+                },
+              );
             },
           );
         },
       ),
     );
-  } 
+  }
 }

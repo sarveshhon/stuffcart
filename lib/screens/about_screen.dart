@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class AboutScreen extends StatelessWidget {
-  AboutScreen({Key? key}) : super(key: key);
+  const AboutScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +56,7 @@ class AboutScreen extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(30),
+            margin: const EdgeInsets.all(30),
             child: Material(
               elevation: 5,
               borderRadius: BorderRadius.circular(20),

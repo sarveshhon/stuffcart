@@ -23,13 +23,20 @@ class _OrderScreenState extends State<OrderScreen> {
             Navigator.of(context).pop();
           },
         ),
-        title: Text(
+        title: const Text(
           "Orders",
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Center(
-        child: Text("Comming Soon"),
+      body: const Center(
+        child: Text(
+          "Your Order\nplaced Successfully!!!",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

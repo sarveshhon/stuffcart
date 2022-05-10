@@ -1,60 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stuffcart/provider/my_provider.dart';
+import 'package:get/get.dart';
+import 'package:stuffcart/controllers/cart_controller.dart';
+import 'package:stuffcart/model/cart_model.dart';
 
 import 'cart_screen.dart';
 
-class ProductScreen extends StatefulWidget {
+class ProductScreen extends StatelessWidget {
   final String name;
   final String image;
   int price;
-
-  ProductScreen({required this.name, required this.image, required this.price});
-
-  @override
-  State<ProductScreen> createState() => _ProductScreenState();
-}
-
-class _ProductScreenState extends State<ProductScreen> {
   int quantity = 1;
   int originalPrice = 0;
 
+  ProductScreen(
+      {Key? key, required this.name, required this.image, required this.price})
+      : super(key: key);
+
+  final cartController = Get.put(CartController());
+
   void increasePrice() {
     if (originalPrice == 0) {
-      originalPrice = widget.price;
+      originalPrice = price;
     }
-    widget.price = widget.price + originalPrice;
+    price = price + originalPrice;
   }
 
   void decreasePrice() {
     if (originalPrice == 0) {
-      originalPrice = widget.price;
+      originalPrice = price;
     }
-    widget.price = widget.price - originalPrice;
+    price = price - originalPrice;
   }
 
   void increaseQuantity() {
     if (!(quantity + 1 > 10)) {
-      setState(() {
-        quantity++;
-        increasePrice();
-      });
+      quantity++;
+      increasePrice();
     }
   }
 
   void decreaseQuantity() {
     if (!(quantity - 1 < 1)) {
-      setState(() {
-        quantity--;
-        decreasePrice();
-      });
+      quantity--;
+      decreasePrice();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    MyProvider provider = Provider.of<MyProvider>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
@@ -77,7 +70,7 @@ class _ProductScreenState extends State<ProductScreen> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => CartScreen(),
+                  builder: (context) => const CartScreen(),
                 ),
               );
             },
@@ -96,7 +89,7 @@ class _ProductScreenState extends State<ProductScreen> {
               child: CircleAvatar(
                 backgroundColor: Colors.indigo,
                 radius: 150,
-                backgroundImage: NetworkImage(widget.image),
+                backgroundImage: NetworkImage(image),
               ),
             ),
             Container(
@@ -121,7 +114,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       height: 30,
                     ),
                     Text(
-                      widget.name,
+                      name,
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 30,
@@ -182,7 +175,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           ],
                         ),
                         Text(
-                          "\u{20B9}" + widget.price.toString(),
+                          "\u{20B9}" + price.toString(),
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 26,
@@ -246,11 +239,13 @@ class _ProductScreenState extends State<ProductScreen> {
                             duration: Duration(seconds: 2),
                           ),
                         ),
-                        provider.addToCart(
-                            name: widget.name,
-                            image: widget.image,
-                            price: widget.price,
-                            quantity: quantity)
+                        cartController.addToCart(
+                          CartModel(
+                              name: name,
+                              image: image,
+                              price: price,
+                              quantity: quantity),
+                        ),
                       },
                       splashColor: Colors.indigo,
                       shape: RoundedRectangleBorder(

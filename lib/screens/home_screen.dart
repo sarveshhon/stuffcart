@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:stuffcart/model/categories_model.dart';
-import 'package:stuffcart/provider/my_provider.dart';
+import 'package:get/get.dart';
+import 'package:stuffcart/controllers/home_controller.dart';
 import 'package:stuffcart/screens/about_screen.dart';
 import 'package:stuffcart/screens/cart_screen.dart';
 import 'package:stuffcart/screens/category_screen.dart';
@@ -9,27 +8,12 @@ import 'package:stuffcart/screens/order_screen.dart';
 import 'package:stuffcart/screens/product_screen.dart';
 import 'package:stuffcart/screens/profile_screen.dart';
 
-import '../model/food_model.dart';
 import '../widget/botom_container.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
-  List<CategoriesModel> homeStyleList = [];
-  List<FoodModel> homeStyleFoodList = [];
-  List<CategoriesModel> chaatList = [];
-  List<FoodModel> chaatFoodList = [];
-  List<CategoriesModel> chickenList = [];
-  List<FoodModel> chickenFoodList = [];
-  List<CategoriesModel> pizzaList = [];
-  List<FoodModel> pizzaFoodList = [];
-  List<CategoriesModel> burgerList = [];
-  List<FoodModel> burgerFoodList = [];
-  List<CategoriesModel> momosList = [];
-  List<FoodModel> momosFoodList = [];
-  List<CategoriesModel> friesList = [];
-  List<FoodModel> friesFoodList = [];
-  List<FoodModel> foodList = [];
+  final homeController = Get.put(HomeController());
 
   Widget categoriesContainer(
       {required VoidCallback onTap,
@@ -87,174 +71,135 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget homeStyle(BuildContext context) {
-    return Row(
-      children: homeStyleList
-          .map((e) => categoriesContainer(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CategoryScreen(
-                        list: homeStyleFoodList, categoryName: "Home Style"),
-                  ),
-                );
-              },
-              image: e.image,
-              name: e.name))
-          .toList(),
+  Widget myHomeStyle(BuildContext context) {
+    return GetX<HomeController>(
+      builder: (controller) {
+        return categoriesContainer(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CategoryScreen(
+                      list: controller.myHomeStyleList,
+                      categoryName: "Home Style"),
+                ),
+              );
+            },
+            image: controller.myHomeStyleList[0].image,
+            name: "Home Style");
+      },
     );
   }
 
-  Widget chaat(BuildContext context) {
-    return Row(
-      children: chaatList
-          .map((e) => categoriesContainer(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CategoryScreen(
-                        list: chaatFoodList, categoryName: "Chaat"),
-                  ),
-                );
-              },
-              image: e.image,
-              name: e.name))
-          .toList(),
+  Widget myChaat(BuildContext context) {
+    return GetX<HomeController>(
+      builder: (controller) {
+        return categoriesContainer(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CategoryScreen(
+                      list: controller.myHomeStyleList, categoryName: "Chaat"),
+                ),
+              );
+            },
+            image: controller.myChaatList[0].image,
+            name: "Chaat");
+      },
     );
   }
 
-  Widget chicken(BuildContext context) {
-    return Row(
-      children: chickenList
-          .map((e) => categoriesContainer(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CategoryScreen(
-                        list: chickenFoodList, categoryName: "Chicken"),
-                  ),
-                );
-              },
-              image: e.image,
-              name: e.name))
-          .toList(),
+  Widget myChicken(BuildContext context) {
+    return GetX<HomeController>(
+      builder: (controller) {
+        return categoriesContainer(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CategoryScreen(
+                      list: controller.myChickenList, categoryName: "Chicken"),
+                ),
+              );
+            },
+            image: controller.myChickenList[0].image,
+            name: "Chicken");
+      },
     );
   }
 
-  Widget pizza(BuildContext context) {
-    return Row(
-      children: pizzaList
-          .map((e) => categoriesContainer(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CategoryScreen(
-                        list: pizzaFoodList, categoryName: "Pizza"),
-                  ),
-                );
-              },
-              image: e.image,
-              name: e.name))
-          .toList(),
+  Widget myPizza(BuildContext context) {
+    return GetX<HomeController>(
+      builder: (controller) {
+        return categoriesContainer(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CategoryScreen(
+                      list: controller.myPizzaList, categoryName: "Pizza"),
+                ),
+              );
+            },
+            image: controller.myPizzaList[0].image,
+            name: "Pizza");
+      },
     );
   }
 
-  Widget burger(BuildContext context) {
-    return Row(
-      children: burgerList
-          .map((e) => categoriesContainer(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CategoryScreen(
-                        list: burgerFoodList, categoryName: "Burger"),
-                  ),
-                );
-              },
-              image: e.image,
-              name: e.name))
-          .toList(),
+  Widget myBurger(BuildContext context) {
+    return GetX<HomeController>(
+      builder: (controller) {
+        return categoriesContainer(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CategoryScreen(
+                      list: controller.myBurgerList, categoryName: "Burger"),
+                ),
+              );
+            },
+            image: controller.myBurgerList[0].image,
+            name: "Burger");
+      },
     );
   }
 
-  Widget momos(BuildContext context) {
-    return Row(
-      children: momosList
-          .map((e) => categoriesContainer(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CategoryScreen(
-                        list: momosFoodList, categoryName: "Momos"),
-                  ),
-                );
-              },
-              image: e.image,
-              name: e.name))
-          .toList(),
+  Widget myMomos(BuildContext context) {
+    return GetX<HomeController>(
+      builder: (controller) {
+        return categoriesContainer(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CategoryScreen(
+                      list: controller.myMomosList, categoryName: "Momos"),
+                ),
+              );
+            },
+            image: controller.myMomosList[0].image,
+            name: "Momos");
+      },
     );
   }
 
-  Widget fries(BuildContext context) {
-    return Row(
-      children: friesList
-          .map((e) => categoriesContainer(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CategoryScreen(
-                        list: friesFoodList, categoryName: "Fries"),
-                  ),
-                );
-              },
-              image: e.image,
-              name: e.name))
-          .toList(),
+  Widget myFries(BuildContext context) {
+    return GetX<HomeController>(
+      builder: (controller) {
+        return categoriesContainer(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CategoryScreen(
+                      list: controller.myFriesList, categoryName: "Fries"),
+                ),
+              );
+            },
+            image: controller.myFriesList[0].image,
+            name: "Fries");
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    MyProvider provider = Provider.of<MyProvider>(context);
-
-    provider.getHomeStyleCategories();
-    homeStyleList = provider.throwHomeStyleList;
-    provider.getChaatCategories();
-    chaatList = provider.throwChaatList;
-    provider.getChickenCategories();
-    chickenList = provider.throwChickenList;
-    provider.getPizzaCategories();
-    pizzaList = provider.throwPizzaList;
-    provider.getBurgerCategories();
-    burgerList = provider.throwBurgerList;
-    provider.getMomosCategories();
-    momosList = provider.throwMomosList;
-    provider.getFriesCategories();
-    friesList = provider.throwFriesList;
-    provider.getFoodList();
-    foodList = provider.throwFoodList;
-
-    provider.getHomeStyleFoodCategories();
-    homeStyleFoodList = provider.throwHomeStyleFoodList;
-
-    provider.getChaatFoodCategories();
-    chaatFoodList = provider.throwChaatFoodList;
-
-    provider.getChickenFoodCategories();
-    chickenFoodList = provider.throwChickenFoodList;
-
-    provider.getPizzaFoodCategories();
-    pizzaFoodList = provider.throwPizzaFoodList;
-
-    provider.getBurgerFoodCategories();
-    burgerFoodList = provider.throwBurgerFoodList;
-
-    provider.getMomosFoodCategories();
-    momosFoodList = provider.throwMomosFoodList;
-
-    provider.getFriesFoodCategories();
-    friesFoodList = provider.throwFriesFoodList;
-
     return Scaffold(
       drawer: Drawer(
         child: SafeArea(
@@ -300,7 +245,7 @@ class HomeScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => OrderScreen(),
+                      builder: (context) => const OrderScreen(),
                     ),
                   );
                 },
@@ -310,7 +255,7 @@ class HomeScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => AboutScreen(),
+                      builder: (context) => const AboutScreen(),
                     ),
                   );
                 },
@@ -371,24 +316,13 @@ class HomeScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    homeStyle(context),
-                    chaat(context),
-                    chicken(context),
-                    pizza(context),
-                    burger(context),
-                    momos(context),
-                    fries(context),
-                    // categoriesContainer("assets/medium10.png", "Medium10"),
-                    // categoriesContainer("assets/small8.png", "Small8"),
-                    // categoriesContainer("assets/large12.png", "Large12"),
-                    // categoriesContainer("assets/large14.png", "Large14"),
-                    // categoriesContainer("assets/pecanpie.png", "Pecan Pie"),
-                    // categoriesContainer("assets/darkpecans.png", "Dark Pecans"),
-                    // categoriesContainer(
-                    //     "assets/baconpotatochip.png", "Bacon Chip"),
-                    // categoriesContainer("assets/maplenut.png", "Maple Nut"),
-                    // categoriesContainer(
-                    //     "assets/seasaltcaramels.png", "Salt Caramels"),
+                    myHomeStyle(context),
+                    myChaat(context),
+                    myChicken(context),
+                    myPizza(context),
+                    myBurger(context),
+                    myMomos(context),
+                    myFries(context),
                   ],
                 ),
               ),
@@ -396,32 +330,35 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                child: GridView.count(
-                  shrinkWrap: true,
-                  primary: false,
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  children: foodList
-                      .map(
-                        (e) => BottomContainer(
-                          image: e.image,
-                          name: e.name,
-                          price: e.price.toString(),
+                child: GetX<HomeController>(
+                  builder: ((controller) {
+                    return GridView.builder(
+                      itemCount: controller.myFoodList.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10.0,
+                        mainAxisSpacing: 10.0,
+                      ),
+                      itemBuilder: (context, index) {
+                        return BottomContainer(
+                          image: controller.myFoodList[index].image,
+                          name: controller.myFoodList[index].name,
+                          price: controller.myFoodList[index].price.toString(),
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => ProductScreen(
-                                    name: e.name,
-                                    image: e.image,
-                                    price: e.price),
+                                    name: controller.myFoodList[index].name,
+                                    image: controller.myFoodList[index].image,
+                                    price: controller.myFoodList[index].price),
                               ),
                             );
                           },
-                        ),
-                      )
-                      .toList(),
+                        );
+                      },
+                    );
+                  }),
                 ),
               ),
             ),
